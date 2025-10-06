@@ -106,38 +106,183 @@ document.addEventListener('DOMContentLoaded', () => {
 
   wireNameValidation(); // linea única para activar la validación del nombre
 
-  // ==========================================================
-  // EJEMPLO (OPCIONAL) CAMPO 2: APELLIDOS (mínimo 3 chars)
-  // - Deja este bloque como plantilla para cuando quieras
-  //   incorporar la validación del segundo campo.
-  // ==========================================================
+// ===================================
+// CAMPO 2: APELLIDOS (mínimo 3 chars)
+// ===================================
 
-  // const lastNameInput = document.getElementById('apellidos');
-  // const LASTNAME_ERROR_ID = 'error-lastname';
-  //
-  // function validateLastName() {
-  //   const value = (lastNameInput?.value || '').trim();
-  //   if (value.length < 3) {
-  //     showError(lastNameInput, LASTNAME_ERROR_ID, 'Los apellidos deben tener al menos 3 caracteres.');
-  //     return false;
-  //   }
-  //   clearError(lastNameInput, LASTNAME_ERROR_ID);
-  //   return true;
-  // }
-  //
-  // function wireLastNameValidation() {
-  //   if (!lastNameInput) return;
-  //   lastNameInput.addEventListener('blur', validateLastName);
-  //   lastNameInput.addEventListener('input', () => {
-  //     if ((lastNameInput.value || '').trim().length >= 3) {
-  //       clearError(lastNameInput, LASTNAME_ERROR_ID);
-  //     }
-  //   });
-  //   // const form = document.getElementById('form-inscripcion');
-  //   // form?.addEventListener('submit', (e) => { if (!validateLastName()) e.preventDefault(); });
-  // }
-  //
-  // wireLastNameValidation();
+// Capturamos el input por su id
+const lastNameInput = document.getElementById('apellidos'); 
+
+// Definimos un ID único para el mensaje de error
+const LASTNAME_ERROR_ID = 'error-lastname';
+
+/**
+ *   Función de validación: al menos 3 caracteres (ignora espacios alrededor)
+ * - Si no cumple, muestra el error con showError()
+ * - Si cumple, limpia el error con clearError()
+ */
+function validateLastName() {
+  const value = (lastNameInput?.value || '').trim(); // Evita error si el input no existe
+  if (value.length < 3) {
+    showError(lastNameInput, LASTNAME_ERROR_ID, 'Los apellidos deben tener al menos 3 caracteres.');
+    return false;
+  }
+  clearError(lastNameInput, LASTNAME_ERROR_ID);
+  return true;
+}
+
+/**
+ * 4) Enganchamos eventos al campo "apellidos"
+ * - blur: valida al salir del campo
+ * - input: si ya cumple, limpia el error en tiempo real
+ * - submit: bloquea el envío si el campo es inválido
+ */
+function wireLastNameValidation() {
+  if (!lastNameInput) return;
+
+  // Validar al perder el foco
+  lastNameInput.addEventListener('blur', validateLastName);
+
+  // Validar mientras escribe (feedback inmediato)
+  lastNameInput.addEventListener('input', () => {
+    if (lastNameInput.value.trim().length >= 3) {
+      clearError(lastNameInput, LASTNAME_ERROR_ID);
+    }
+  });
+
+  // Bloquear envío si el campo es inválido
+  const form = document.getElementById('form-inscripcion');
+  form?.addEventListener('submit', (e) => {
+    if (!validateLastName()) e.preventDefault();
+  });
+}
+
+// 5) Activamos la validación del campo "apellidos"
+wireLastNameValidation
+
+// ===================================
+// CAMPO 3: DNI (formato 8 números + 1 letra)
+// ===================================
+
+// 1) Capturamos el input por su id
+const dniInput = document.getElementById('dni'); // <input id="dni" ...>
+
+// 2) Definimos un ID único para el mensaje de error
+const DNI_ERROR_ID = 'error-dni'; // id único para el <p> del error
+
+/**
+ * 3) Función de validación:
+ * - Debe tener exactamente 8 dígitos seguidos de una letra (mayúscula o minúscula)
+ * - Ejemplo válido: 12345678Z
+ */
+function validateDNI() {
+  const value = (dniInput?.value || '').trim();
+  const dniRegex = /^[0-9]{8}[a-zA-Z]$/; // Expresión regular para validar el formato
+
+  if (!dniRegex.test(value)) {
+    showError(dniInput, DNI_ERROR_ID, 'El DNI debe tener 8 números seguidos de una letra (ej. 12345678Z).');
+    return false;
+  }
+
+  clearError(dniInput, DNI_ERROR_ID);
+  return true;
+}
+
+/**
+ * 4) Enganchamos eventos al campo "dni"
+ * - blur: valida al salir del campo
+ * - input: si ya cumple, limpia el error en tiempo real
+ * - submit: bloquea el envío si el campo es inválido
+ */
+function wireDNIValidation() {
+  if (!dniInput) return;
+
+  // Validar al perder el foco
+  dniInput.addEventListener('blur', validateDNI);
+
+  // Validar mientras escribe (feedback inmediato)
+  dniInput.addEventListener('input', () => {
+    if (/^[0-9]{8}[a-zA-Z]$/.test(dniInput.value.trim())) {
+      clearError(dniInput, DNI_ERROR_ID);
+    }
+  });
+
+  // Bloquear envío si el campo es inválido
+  const form = document.getElementById('form-inscripcion');
+  form?.addEventListener('submit', (e) => {
+    if (!validateDNI()) e.preventDefault();
+  });
+}
+
+// 5) Activamos la validación del campo "dni"
+wireDNIValidation();
+
+// ============================================
+// CAMPO 4: FECHA DE NACIMIENTO (mayores de 18)
+// ============================================
+
+// 1) Capturamos el input por su id
+const birthDateInput = document.getElementById('fecha-nacimiento'); // <input id="fecha-nacimiento" type="date" ...>
+
+// 2) Definimos un ID único para el mensaje de error
+const BIRTHDATE_ERROR_ID = 'error-birthdate';
+
+/**
+ * 3) Función de validación:
+ * - Verifica que haya una fecha válida
+ * - Calcula la edad y exige mínimo 18 años
+ */
+function validateBirthDate() {
+  const value = birthDateInput?.value;
+  if (!value) {
+    showError(birthDateInput, BIRTHDATE_ERROR_ID, 'La fecha de nacimiento es obligatoria.');
+    return false;
+  }
+
+  const birthDate = new Date(value);
+  const today = new Date();
+  const age = today.getFullYear() - birthDate.getFullYear();
+  const hasBirthdayPassed =
+    today.getMonth() > birthDate.getMonth() ||
+    (today.getMonth() === birthDate.getMonth() && today.getDate() >= birthDate.getDate());
+
+  const actualAge = hasBirthdayPassed ? age : age - 1;
+
+  if (actualAge < 18) {
+    showError(birthDateInput, BIRTHDATE_ERROR_ID, 'Debes ser mayor de 18 años.');
+    return false;
+  }
+
+  clearError(birthDateInput, BIRTHDATE_ERROR_ID);
+  return true;
+}
+
+/**
+ * 4) Enganchamos eventos al campo "fecha de nacimiento"
+ * - blur: valida al salir del campo
+ * - input: si ya cumple, limpia el error en tiempo real
+ * - submit: bloquea el envío si el campo es inválido
+ */
+function wireBirthDateValidation() {
+  if (!birthDateInput) return;
+
+  birthDateInput.addEventListener('blur', validateBirthDate);
+
+  birthDateInput.addEventListener('input', () => {
+    if (validateBirthDate()) {
+      clearError(birthDateInput, BIRTHDATE_ERROR_ID);
+    }
+  });
+
+  const form = document.getElementById('form-inscripcion');
+  form?.addEventListener('submit', (e) => {
+    if (!validateBirthDate()) e.preventDefault();
+  });
+}
+
+// 5) Activamos la validación del campo "fecha de nacimiento"
+wireBirthDateValidation();
+
 
   // ----------------------------------------------------------
   // NOTAS PARA EXTENDER (MISMA RECETA PARA CADA CAMPO NUEVO):
