@@ -198,28 +198,71 @@ footer {
       .plan-card h4{ margin:.2rem 0 .6rem; font-size:1rem }
       .price{ font-weight:800 }
 
-/* empiezan los estilos de validación de formularios */
-/* --- Estados básicos controlados por JS para el campo Nombre --- */
-input[aria-invalid="true"] {
-  border-color: var(--danger) !important;
-  box-shadow: 0 0 0 4px rgba(239, 91, 91, .18);
-  background: #0c111c;
+input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="true"]{
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 3px rgba(231,76,60,.2);
+}
+.error-msg{ font-size:.9rem; margin-top:6px }
+
+/* Hace que el chip "apagado" se note */
+.chip.is-disabled { opacity: .55; }
+      
+/* Estado de error más notorio en el control completo */
+.control.has-error label {
+  color: #ffb3b3; /* resalta la etiqueta en error */
 }
 
-input[data-valid="true"] {
-  border-color: var(--accent) !important;
-  box-shadow: 0 0 0 4px rgba(91, 141, 239, .18);
-  background: #0c111c;
+/* Input/textarea/select con error: ya tienes border+shadow vía aria-invalid */
+input[aria-invalid="true"],
+select[aria-invalid="true"],
+textarea[aria-invalid="true"]{
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px rgba(239,91,91,.25);
 }
 
-/* Mensaje de error sencillo */
-.error-msg {
-  margin-top: 6px;
-  padding: 8px 10px;
-  font-size: .9rem;
-  color: #ffd3d3;
-  background: rgba(239,91,91,.12);
-  border-left: 4px solid var(--danger);
-  border-radius: 8px;
+/* Mensaje de error destacado, con icono + fondo */
+.error-msg{
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 10px 12px;
+  font-size: .95rem;
+  font-weight: 600;
+  color: #ffd7d7;                         /* texto claro sobre fondo oscuro */
+  background: rgba(239,91,91,.12);        /* tinte rojo suave */
+  border: 1px solid rgba(239,91,91,.35);  /* define el contorno */
+  border-left: 4px solid var(--danger);   /* “barra” de alerta */
+  border-radius: 10px;
+
+  /* Aparición suave (una sola vez) */
+  animation: error-in .18s ease-out;
+}
+
+.error-msg::before{
+  content: "⚠";               /* icono simple; opcional sustituir por SVG */
+  line-height: 1;
+  margin-top: 2px;
+  font-size: 1.05em;
+}
+
+/* Desactiva animación si el usuario prefiere menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .error-msg { animation: none; }
+}
+
+/* Micro-animación de entrada (sin “titilar”) */
+@keyframes error-in {
+  from { transform: translateY(-2px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* Chip deshabilitado ya lo tienes */
+.chip.is-disabled { opacity: .55; }
+
+button[disabled] {
+  opacity: .6;
+  cursor: not-allowed;
+  filter: grayscale(0.2);
 }
 

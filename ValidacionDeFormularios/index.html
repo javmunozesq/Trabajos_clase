@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Inscripción Gimnasio — Formulario HTML + CSS</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <meta name="description" content="Formulario accesible y responsivo de inscripción a gimnasio hecho con HTML y CSS puros, listo para agregar validación en JavaScript." />
   </head>
   <body>
@@ -17,7 +17,7 @@
             <p class="sub">HTML + CSS puros · listo para añadir validación con JavaScript</p>
           </div>
         </div>
-        <p class="note">Consejo docente: este formulario usa validación nativa (atributos <code>required</code>, <code>pattern</code>, <code>min</code>, <code>max</code>, etc.). Tus alumnos podrán reforzarla con escuchas <code>input</code>, <code>blur</code> y <code>submit</code> para mensajes personalizados.</p>
+        <p class="note">Este formulario usa validación nativa (atributos <code>required</code>, <code>pattern</code>, <code>min</code>, <code>max</code>, etc.). podrán reforzarla con escuchas <code>input</code>, <code>blur</code> y <code>submit</code> para mensajes personalizados.</p>
       </header>
 
       <form id="form-inscripcion" action="#" method="post" novalidate>
@@ -27,16 +27,16 @@
           <div class="grid cols-3">
             <div class="control">
               <label for="nombre">Nombre <span class="req" aria-hidden="true">*</span></label>
-              <input id="nombre" name="nombre" type="text" autocomplete="given-name" placeholder="Juan" required minlength="3" maxlength="40" />
+              <input id="nombre" name="nombre" type="text" autocomplete="given-name" placeholder="Juan" required minlength="2" maxlength="40" />
             </div>
             <div class="control">
               <label for="apellidos">Apellidos <span class="req" aria-hidden="true">*</span></label>
-              <input id="apellidos" name="apellidos" type="text" autocomplete="family-name" placeholder="Pérez Gómez" required minlength="3" maxlength="80" />
+              <input id="apellidos" name="apellidos" type="text" autocomplete="family-name" placeholder="Pérez Gómez" required minlength="2" maxlength="80" />
             </div>
             <div class="control">
               <label for="dni">Documento (DNI/NIE/Pasaporte) <span class="req" aria-hidden="true">*</span></label>
               <input id="dni" name="dni" type="text" placeholder="12345678Z" required pattern="^[A-Za-z0-9]{5,15}$" title="Entre 5 y 15 caracteres alfanuméricos" />
-              <div class="hint">Solo letras y números (5–15).</div>
+              <!-- <div class="hint">Solo letras y números (5–15).</div> -->
             </div>
           </div>
 
@@ -133,8 +133,13 @@
 
           <div class="grid cols-2">
             <div class="control">
-              <label for="objetivos">Objetivos principales</label>
-              <textarea id="objetivos" name="objetivos" placeholder="Pérdida de peso, ganar masa muscular, rehabilitación..." maxlength="500"></textarea>
+            <label for="objetivos">Objetivos principales <span class="req" aria-hidden="true">*</span></label>
+            <textarea id="objetivos"
+                      name="objetivos"
+                      placeholder="Pérdida de peso, ganar masa muscular, rehabilitación..."
+                      maxlength="500"
+                      required></textarea>
+
               <div class="hint">Máximo 500 caracteres.</div>
             </div>
             <div class="control">
@@ -242,15 +247,15 @@
             <label class="inline"><input type="checkbox" name="promo"> Deseo recibir comunicaciones promocionales</label>
           </div>
         </fieldset>
-
         <div class="actions">
           <button type="reset" class="btn-secondary">Limpiar</button>
-          <button type="submit" class="btn-primary">Enviar solicitud</button>
+          <button type="submit" class="btn-primary" disabled aria-disabled="true">
+            Enviar solicitud
+          </button>
         </div>
-
         <p class="foot">Los campos marcados con <span class="req">*</span> son obligatorios. Este formulario no guarda datos: úsalo con un endpoint ficticio para prácticas de JS (eventos <code>submit</code>, validaciones personalizadas, manejo del DOM).</p>
       </form>
     </div>
-    <script src="/js/formValidation.js" defer></script>
+    <script type="module" src="./js/formValidation.js"></script>
   </body>
 </html>
