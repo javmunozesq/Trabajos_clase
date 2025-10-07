@@ -32,8 +32,7 @@ class ProcesadorEstandar implements Runnable {
     public ProcesadorEstandar(String pedido) {
         this.pedido = pedido;
     }
-
-    @Override
+    
     public void run() {
         Random random = new Random();
         System.out.println("Procesando pedido estándar: " + pedido);

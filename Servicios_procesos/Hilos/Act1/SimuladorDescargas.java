@@ -55,9 +55,9 @@ public class SimuladorDescargas {
         long tiempoTotal = fin - inicio;
 
         System.out.println("\n Resultados de descarga:");
-        System.out.println("archivo1.zip: " + (archivo1.isDescargadoCorrectamente() ? "✅ Completado" : "❌ Fallido"));
-        System.out.println("archivo2.pdf: " + (archivo2.isDescargadoCorrectamente() ? "✅ Completado" : "❌ Fallido"));
-        System.out.println("archivo3.jpg: " + (archivo3.isDescargadoCorrectamente() ? "✅ Completado" : "❌ Fallido"));
+        System.out.println("archivo1.zip: " + (archivo1.isDescargadoCorrectamente() ? " Completado" : " Fallido"));
+        System.out.println("archivo2.pdf: " + (archivo2.isDescargadoCorrectamente() ? " Completado" : " Fallido"));
+        System.out.println("archivo3.jpg: " + (archivo3.isDescargadoCorrectamente() ? " Completado" : " Fallido"));
 
         System.out.println("\nTiempo total de ejecución: " + tiempoTotal + " ms");
     }
