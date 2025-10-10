@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>Resultados de Fútbol — Jornada y Destacado</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Ctext y='1em' font-size='96'%3E%F0%9F%8F%88%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">⚽</div>
+      <div class="brand-text">
+        <h1>Resultados de Fútbol</h1>
+        <p class="tagline">Marcadores y resumen de la jornada para prácticas de web scraping</p>
+      </div>
+    </div>
+
+    <nav class="top-actions" aria-label="acciones">
+      <a href="#spotlight" class="btn primary">Partido del día</a>
+      <a href="#matches" class="btn">Todos los partidos</a>
+      <a href="#faq" class="btn">FAQ</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO / SPOTLIGHT -->
+    <section id="spotlight" class="spotlight" aria-labelledby="spotlight-title">
+      <div class="spotlight-card glass">
+        <h2 id="spotlight-title">Partido destacado</h2>
+        <p class="muted">Resumen del encuentro (últ. actualización de demo: 05-Oct-2025)</p>
+
+        <!-- 🔽 OBJETIVO DEL SCRAPING -->
+        <div class="big-match" data-testid="primary-match" aria-live="polite">
+          <div class="teams">
+            <span class="home-team" data-team="Racing Club">Racing Club</span>
+            <span class="score" id="featured-score" data-home="Racing Club" data-away="River Plate">2 - 1</span>
+            <span class="away-team" data-team="River Plate">River Plate</span>
+          </div>
+          <div class="meta">
+            <span class="competition">Liga Nacional</span>
+            <span class="date">05-Oct-2025</span>
+            <span class="status muted">Finalizado</span>
+          </div>
+        </div>
+
+        <p class="hint">
+          (El resultado está <strong>hardcodeado</strong> para tu script. Modifica el contenido para practicar).
+        </p>
+      </div>
+
+      <div class="info-card">
+        <h3>¿Qué es esto?</h3>
+        <p>
+          Esta landing imita una página de resultados con varios partidos listados.
+          El objetivo del ejercicio es que con <strong>Python</strong> hagas
+          <em>web scraping</em> del marcador destacado <mark>2 - 1</mark> en el elemento con ID <code>featured-score</code>.
+        </p>
+        <ul class="checklist">
+          <li>Contenido estático (sin backend).</li>
+          <li>Estructura semántica y selectores claros.</li>
+          <li>Ruido realista: más partidos, tarjetas y tablas.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- LISTA DE PARTIDOS -->
+    <section id="matches" class="matches" aria-labelledby="matches-title">
+      <h2 id="matches-title">Resultados de la jornada</h2>
+      <div class="grid-cards">
+        <article class="match-card">
+          <header>Atlético vs Barcelona</header>
+          <div class="match"><span class="pair">Atlético</span> <strong class="value">1 - 3</strong> <span class="pair">Barcelona</span></div>
+          <p class="muted">Liga Nacional — Finalizado</p>
+        </article>
+        <article class="match-card">
+          <header>Valencia vs Sevilla</header>
+          <div class="match"><span class="pair">Valencia</span> <strong class="value">0 - 0</strong> <span class="pair">Sevilla</span></div>
+          <p class="muted">Liga Nacional — Finalizado</p>
+        </article>
+        <article class="match-card">
+          <header>Real Madrid vs Betis</header>
+          <div class="match"><span class="pair">Real Madrid</span> <strong class="value">4 - 2</strong> <span class="pair">Betis</span></div>
+          <p class="muted">Liga Nacional — Finalizado</p>
+        </article>
+        <article class="match-card">
+          <header>Villarreal vs Celta</header>
+          <div class="match"><span class="pair">Villarreal</span> <strong class="value">2 - 2</strong> <span class="pair">Celta</span></div>
+          <p class="muted">Liga Nacional — Finalizado</p>
+        </article>
+        <article class="match-card">
+          <header>Espanyol vs Mallorca</header>
+          <div class="match"><span class="pair">Espanyol</span> <strong class="value">1 - 0</strong> <span class="pair">Mallorca</span></div>
+          <p class="muted">Liga Nacional — Finalizado</p>
+        </article>
+        <article class="match-card">
+          <header>Granada vs Osasuna</header>
+          <div class="match"><span class="pair">Granada</span> <strong class="value">0 - 2</strong> <span class="pair">Osasuna</span></div>
+          <p class="muted">Liga Nacional — Finalizado</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- TABLA (más “ruido” útil para scraping) -->
+    <section class="table-wrap" aria-labelledby="tabla-title">
+      <h2 id="tabla-title">Tabla de la jornada</h2>
+      <div class="table-scroll">
+        <table class="results-table" aria-describedby="tabla-note">
+          <caption id="tabla-note" class="muted">Resumen de goles y estado</caption>
+          <thead>
+            <tr>
+              <th>Partido</th>
+              <th>Marcador</th>
+              <th>Posesión</th>
+              <th>Tarjetas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Racing vs River</td>
+              <td>2 - 1</td>
+              <td>54%</td>
+              <td class="yellow">2 / 1</td>
+            </tr>
+            <tr>
+              <td>Atlético vs Barcelona</td>
+              <td>1 - 3</td>
+              <td>48%</td>
+              <td class="red">1 / 0</td>
+            </tr>
+            <tr>
+              <td>Real Madrid vs Betis</td>
+              <td>4 - 2</td>
+              <td>62%</td>
+              <td class="yellow">3 / 2</td>
+            </tr>
+            <tr>
+              <td>Valencia vs Sevilla</td>
+              <td>0 - 0</td>
+              <td>50%</td>
+              <td class="none">0 / 0</td>
+            </tr>
+            <tr>
+              <td>Villarreal vs Celta</td>
+              <td>2 - 2</td>
+              <td>51%</td>
+              <td class="yellow">2 / 2</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="faq" aria-labelledby="faq-title">
+      <h2 id="faq-title">Preguntas frecuentes</h2>
+      <details>
+        <summary>¿Los datos son reales?</summary>
+        <p>No. Todas las cifras están <strong>simuladas</strong> y se incluyen solo para practicar scraping.</p>
+      </details>
+      <details>
+        <summary>¿Dónde está el resultado destacado?</summary>
+        <p>En el elemento con ID <code>featured-score</code> dentro del bloque “Partido destacado”.</p>
+      </details>
+      <details>
+        <summary>¿Puedo cambiar el formato?</summary>
+        <p>Sí, puedes modificar HTML/CSS/JS a tu gusto; el script de scraping debería adaptarse a selectores estables.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small>© 2025 Resultados de Fútbol (demo educativa). Hecha con pasión para prácticas de Python.</small>
+  </footer>
+
+  <script>
+    // script.js minimal para simular pequeñas actualizaciones (opcional)
+    document.addEventListener('DOMContentLoaded', function () {
+      // ejemplo: actualizar timestamp o añadir pequeña animación
+      const spotlight = document.querySelector('.spotlight .muted');
+      if (spotlight) spotlight.textContent = 'Resumen del encuentro (últ. actualización de demo: 05-Oct-2025)';
+    });
+  </script>
+</body>
+</html>
