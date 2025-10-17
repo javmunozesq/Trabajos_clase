@@ -1,4 +1,8 @@
-package Servicios_procesos.Hilos.Act2;
+/*  Hecho por Javier Muñoz
+Este programa simula el proceso de pedidos (urgentes o estándar) concurrente indicando al final
+si se procesaron correctamente y el tiempo de ejecución
+*/
+
 
 import java.util.Random;
 

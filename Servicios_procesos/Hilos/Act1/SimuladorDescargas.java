@@ -1,3 +1,8 @@
+/*  Hecho por Javier Muñoz
+Este programa simula la descarga concurrente de varios archivos usando hilos indicando al final
+si se descargaron correctamente y el tiempo de ejecución
+*/
+
 import java.util.Random;
 
 class DescargaArchivo extends Thread {

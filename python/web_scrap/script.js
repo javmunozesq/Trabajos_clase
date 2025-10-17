@@ -1,28 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
   const featured = document.getElementById('featured-score');
+  const statusEl = document.querySelector('.big-match .status');
+
   if (!featured) return;
 
-  // Animación inicial
-  featured.classList.add('pop');
-  setTimeout(() => featured.classList.remove('pop'), 1200);
+  // Aplica animación de entrada
+  animateScore(featured);
 
-  // Función pública para actualizar el marcador y reactivar la animación
-  window.updateFeaturedScore = function(newScore, opts = {}) {
+  // Función para animar marcador
+  function animateScore(el) {
+    el.classList.add('pop');
+    setTimeout(() => el.classList.remove('pop'), 1200);
+  }
+
+  // Función pública para actualizar marcador destacado
+  window.updateFeaturedScore = function (newScore, opts = {}) {
     featured.textContent = newScore;
+
     if (opts.home) featured.dataset.home = opts.home;
     if (opts.away) featured.dataset.away = opts.away;
-    if (opts.status) {
-      const statusEl = document.querySelector('.big-match .status');
-      if (statusEl) statusEl.textContent = opts.status;
-    }
-    // Reaplicar animación
+    if (opts.status && statusEl) statusEl.textContent = opts.status;
+
+    // Reinicia animación
     featured.classList.remove('pop');
-    // Forzar reflow para reiniciar la animación
-    void featured.offsetWidth;
-    featured.classList.add('pop');
-    setTimeout(() => featured.classList.remove('pop'), 1200);
+    void featured.offsetWidth; // Forzar reflow
+    animateScore(featured);
   };
 
-  // Ejemplo: actualizar automáticamente tras unos segundos (opcional)
-  // setTimeout(() => window.updateFeaturedScore('3 - 2', { home: 'Racing Club', away: 'River Plate', status: 'Finalizado' }), 3000);
+  // Ejemplo de actualización automática (descomenta para probar)
+  // setTimeout(() => {
+  //   window.updateFeaturedScore('3 - 2', {
+  //     home: 'Racing Club',
+  //     away: 'River Plate',
+  //     status: 'Finalizado'
+  //   });
+  // }, 3000);
 });

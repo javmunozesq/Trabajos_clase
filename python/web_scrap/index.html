@@ -27,6 +27,14 @@
     </nav>
   </header>
 
+
+    <div class="hero-banner">
+  <div class="hero-text">
+    <h1>¡Bienvenido al mundo del fútbol!</h1>
+    <p>Resultados, emoción y goles... todo en un solo lugar.</p>
+  </div>
+</div>
+
   <main>
     <!-- HERO / SPOTLIGHT -->
     <section id="spotlight" class="spotlight" aria-labelledby="spotlight-title">
@@ -37,9 +45,11 @@
         <!-- 🔽 OBJETIVO DEL SCRAPING -->
         <div class="big-match" data-testid="primary-match" aria-live="polite">
           <div class="teams">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Escudo_de_Racing_Club_%282014%29.svg/1686px-Escudo_de_Racing_Club_%282014%29.svg.png" alt="Racing" class="team-logo" />
             <span class="home-team" data-team="Racing Club">Racing Club</span>
             <span class="score" id="featured-score" data-home="Racing Club" data-away="River Plate">2 - 1</span>
             <span class="away-team" data-team="River Plate">River Plate</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Logo_River_Plate.png" alt="River" class="team-logo" />
           </div>
           <div class="meta">
             <span class="competition">Liga Nacional</span>
@@ -47,10 +57,6 @@
             <span class="status muted">Finalizado</span>
           </div>
         </div>
-
-        <p class="hint">
-          (El resultado está <strong>hardcodeado</strong> para tu script. Modifica el contenido para practicar).
-        </p>
       </div>
 
       <div class="info-card">
@@ -70,90 +76,178 @@
 
     <!-- LISTA DE PARTIDOS -->
     <section id="matches" class="matches" aria-labelledby="matches-title">
-      <h2 id="matches-title">Resultados de la jornada</h2>
-      <div class="grid-cards">
-        <article class="match-card">
-          <header>Atlético vs Barcelona</header>
-          <div class="match"><span class="pair">Atlético</span> <strong class="value">1 - 3</strong> <span class="pair">Barcelona</span></div>
-          <p class="muted">Liga Nacional — Finalizado</p>
-        </article>
-        <article class="match-card">
-          <header>Valencia vs Sevilla</header>
-          <div class="match"><span class="pair">Valencia</span> <strong class="value">0 - 0</strong> <span class="pair">Sevilla</span></div>
-          <p class="muted">Liga Nacional — Finalizado</p>
-        </article>
-        <article class="match-card">
-          <header>Real Madrid vs Betis</header>
-          <div class="match"><span class="pair">Real Madrid</span> <strong class="value">4 - 2</strong> <span class="pair">Betis</span></div>
-          <p class="muted">Liga Nacional — Finalizado</p>
-        </article>
-        <article class="match-card">
-          <header>Villarreal vs Celta</header>
-          <div class="match"><span class="pair">Villarreal</span> <strong class="value">2 - 2</strong> <span class="pair">Celta</span></div>
-          <p class="muted">Liga Nacional — Finalizado</p>
-        </article>
-        <article class="match-card">
-          <header>Espanyol vs Mallorca</header>
-          <div class="match"><span class="pair">Espanyol</span> <strong class="value">1 - 0</strong> <span class="pair">Mallorca</span></div>
-          <p class="muted">Liga Nacional — Finalizado</p>
-        </article>
-        <article class="match-card">
-          <header>Granada vs Osasuna</header>
-          <div class="match"><span class="pair">Granada</span> <strong class="value">0 - 2</strong> <span class="pair">Osasuna</span></div>
-          <p class="muted">Liga Nacional — Finalizado</p>
-        </article>
+  <h2 id="matches-title">Resultados de la jornada</h2>
+  <div class="grid-cards">
+
+    <article class="match-card">
+      <header>Atlético vs Barcelona</header>
+      <div class="match">
+        <span class="pair">
+          <img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/1068.png" alt="Atlético" class="team-logo" />
+          Atlético
+        </span>
+        <strong class="value">1 - 3</strong>
+        <span class="pair">
+          Barcelona
+          <img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/83.png" alt="Barcelona" class="team-logo"/>
+        </span>
       </div>
-    </section>
+      <p class="muted">Liga Nacional — Finalizado</p>
+    </article>
+
+    <article class="match-card">
+      <header>Valencia vs Sevilla</header>
+      <div class="match">
+        <span class="pair">
+          <img src="https://upload.wikimedia.org/wikipedia/sco/thumb/c/ce/Valenciacf.svg/1623px-Valenciacf.svg.png" alt="Valencia" class="team-logo" />
+          Valencia
+        </span>
+        <strong class="value">0 - 0</strong>
+        <span class="pair">
+          Sevilla
+          <img src="https://upload.wikimedia.org/wikipedia/an/5/5c/Sevilla_F%C3%BAtbol_Club_logo.svg.png" alt="Sevilla" class="team-logo" />
+        </span>
+      </div>
+      <p class="muted">Liga Nacional — Finalizado</p>
+    </article>
+
+    <article class="match-card">
+      <header>Real Madrid vs Betis</header>
+      <div class="match">
+        <span class="pair">
+          <img src="https://brandlogos.net/wp-content/uploads/2021/12/Real-Madrid-CF-logo.png" alt="Real Madrid" class="team-logo" />
+          Real Madrid
+        </span>
+        <strong class="value">4 - 2</strong>
+        <span class="pair">
+          Betis
+          <img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/244.png" alt="Betis" class="team-logo" />
+        </span>
+      </div>
+      <p class="muted">Liga Nacional — Finalizado</p>
+    </article>
+
+    <article class="match-card">
+      <header>Villarreal vs Celta</header>
+      <div class="match">
+        <span class="pair">
+          <img src="https://football-logos.cc/logos/spain/700x700/villarreal.png" alt="Villarreal" class="team-logo" />
+          Villarreal
+        </span>
+        <strong class="value">2 - 2</strong>
+        <span class="pair">
+          Celta
+          <img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/85.png" alt="Celta" class="team-logo" />
+        </span>
+      </div>
+      <p class="muted">Liga Nacional — Finalizado</p>
+    </article>
+
+    <article class="match-card">
+      <header>Espanyol vs Mallorca</header>
+      <div class="match">
+        <span class="pair">
+          <img src="https://www.smartfootball.es/wp-content/uploads/2023/01/rcd-espanyol-logo-escudo-1.png" alt="Espanyol" class="team-logo" />
+          Espanyol
+        </span>
+        <strong class="value">1 - 0</strong>
+        <span class="pair">
+          Mallorca
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/Rcd_mallorca.svg/906px-Rcd_mallorca.svg.png" alt="Mallorca" class="team-logo" />
+        </span>
+      </div>
+      <p class="muted">Liga Nacional — Finalizado</p>
+    </article>
+
+    <article class="match-card">
+      <header>Granada vs Osasuna</header>
+      <div class="match">
+        <span class="pair">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Escudo_Granada_club_de_f%C3%BAtbol.png" alt="Granada" class="team-logo" />
+          Granada
+        </span>
+        <strong class="value">0 - 2</strong>
+        <span class="pair">
+          Osasuna
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/38/CA_Osasuna_2024_crest.svg/895px-CA_Osasuna_2024_crest.svg.png" alt="Osasuna" class="team-logo" />
+        </span>
+      </div>
+      <p class="muted">Liga Nacional — Finalizado</p>
+    </article>
+
+  </div>
+</section>
+
 
     <!-- TABLA (más “ruido” útil para scraping) -->
     <section class="table-wrap" aria-labelledby="tabla-title">
-      <h2 id="tabla-title">Tabla de la jornada</h2>
-      <div class="table-scroll">
-        <table class="results-table" aria-describedby="tabla-note">
-          <caption id="tabla-note" class="muted">Resumen de goles y estado</caption>
-          <thead>
-            <tr>
-              <th>Partido</th>
-              <th>Marcador</th>
-              <th>Posesión</th>
-              <th>Tarjetas</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Racing vs River</td>
-              <td>2 - 1</td>
-              <td>54%</td>
-              <td class="yellow">2 / 1</td>
-            </tr>
-            <tr>
-              <td>Atlético vs Barcelona</td>
-              <td>1 - 3</td>
-              <td>48%</td>
-              <td class="red">1 / 0</td>
-            </tr>
-            <tr>
-              <td>Real Madrid vs Betis</td>
-              <td>4 - 2</td>
-              <td>62%</td>
-              <td class="yellow">3 / 2</td>
-            </tr>
-            <tr>
-              <td>Valencia vs Sevilla</td>
-              <td>0 - 0</td>
-              <td>50%</td>
-              <td class="none">0 / 0</td>
-            </tr>
-            <tr>
-              <td>Villarreal vs Celta</td>
-              <td>2 - 2</td>
-              <td>51%</td>
-              <td class="yellow">2 / 2</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+  <h2 id="tabla-title">Tabla de la jornada</h2>
+  <div class="table-scroll">
+    <table class="results-table" aria-describedby="tabla-note">
+      <caption id="tabla-note" class="muted">Resumen de goles y estado</caption>
+      <thead>
+        <tr>
+          <th>Partido</th>
+          <th>Marcador</th>
+          <th>Posesión</th>
+          <th>Tarjetas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Escudo_de_Racing_Club_%282014%29.svg/1686px-Escudo_de_Racing_Club_%282014%29.svg.png" alt="Racing" class="team-logo" />
+            Racing vs River
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Logo_River_Plate.png" alt="River" class="team-logo" />
+          </td>
+          <td>2 - 1</td>
+          <td>54%</td>
+          <td class="yellow">2 / 1</td>
+        </tr>
+        <tr>
+          <td>
+            <img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/1068.png" alt="Atlético" class="team-logo" />
+            Atlético vs Barcelona
+            <img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/83.png" alt="Barcelona" class="team-logo" />
+          </td>
+          <td>1 - 3</td>
+          <td>48%</td>
+          <td class="red">1 / 0</td>
+        </tr>
+        <tr>
+          <td>
+            <img src="https://brandlogos.net/wp-content/uploads/2021/12/Real-Madrid-CF-logo.png" alt="Real Madrid" class="team-logo" />
+            Real Madrid vs Betis
+            <img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/244.png" alt="Betis" class="team-logo" />
+          </td>
+          <td>4 - 2</td>
+          <td>62%</td>
+          <td class="yellow">3 / 2</td>
+        </tr>
+        <tr>
+          <td>
+            <img src="https://upload.wikimedia.org/wikipedia/sco/thumb/c/ce/Valenciacf.svg/1623px-Valenciacf.svg.png" alt="Valencia" class="team-logo" />
+            Valencia vs Sevilla
+            <img src="https://upload.wikimedia.org/wikipedia/an/5/5c/Sevilla_F%C3%BAtbol_Club_logo.svg.png" alt="Sevilla" class="team-logo" />
+          </td>
+          <td>0 - 0</td>
+          <td>50%</td>
+          <td class="none">0 / 0</td>
+        </tr>
+        <tr>
+          <td>
+            <img src="https://football-logos.cc/logos/spain/700x700/villarreal.png" alt="Villarreal" class="team-logo" />
+            Villarreal vs Celta
+            <img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/85.png" alt="Celta" class="team-logo" />
+          </td>
+          <td>2 - 2</td>
+          <td>51%</td>
+          <td class="yellow">2 / 2</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
     <!-- FAQ -->
     <section id="faq" class="faq" aria-labelledby="faq-title">
@@ -173,9 +267,46 @@
     </section>
   </main>
 
-  <footer class="site-footer">
-    <small>© 2025 Resultados de Fútbol (demo educativa). Hecha con pasión para prácticas de Python.</small>
-  </footer>
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <h2>⚽ Resultados de Fútbol</h2>
+      <p>Tu fuente confiable para practicar scraping con datos deportivos simulados.</p>
+    </div>
+
+    <div class="footer-links">
+      <h3>Secciones</h3>
+      <ul>
+        <li><a href="#spotlight">Partido del día</a></li>
+        <li><a href="#matches">Resultados</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-contact">
+      <h3>Contacto</h3>
+      <ul>
+        <li><a href="mailto:info@resultadosfutbol.com">info@resultadosfutbol.com</a></li>
+        <li><a href="#">Política de privacidad</a></li>
+        <li><a href="#">Términos de uso</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-social">
+      <h3>Síguenos</h3>
+      <div class="social-icons">
+        <a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/facebook-new.png" alt="Facebook" /></a>
+        <a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/twitter.png" alt="Twitter" /></a>
+        <a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/instagram-new.png" alt="Instagram" /></a>
+        <a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/youtube-play.png" alt="YouTube" /></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <small>© 2025 Resultados de Fútbol. Proyecto educativo sin fines comerciales. Hecho con ❤️ para practicar Python.</small>
+  </div>
+</footer>
 
   <script>
     // script.js minimal para simular pequeñas actualizaciones (opcional)
