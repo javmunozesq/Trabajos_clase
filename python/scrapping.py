@@ -30,7 +30,7 @@ def obtener_resultado_destacado(url):
             print("❌ No se encontró el marcador destacado.")
 
     except requests.exceptions.RequestException as e:
-        print(f "Error al acceder a la página: {e}")
+        print("Error al acceder a la página: {e}")
 
 # Ejecutar
 if __name__ == "__main__":
