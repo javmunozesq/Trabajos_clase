@@ -165,7 +165,11 @@ public class FicheroAleatorio {
                     existente = raf.readInt();
                 }
                 if (existente != 0) {
-                    System.out.println("Ya existe un registro en esa posición. No se inserta.");
+                  String apExistente = readFixedString(raf, APELLIDO_CHARS).trim();
+                  int depExistente = raf.readInt();
+                  double salExistente = raf.readDouble();
+                  System.out.printf("Ya existe: NUM=%d, APELLIDO=%s, DEP=%d, SALARIO=%.2f%n", existente, apExistente, depExistente, salExistente);
+
                     // avanzar lectura para no romper el flujo si seguimos leyendo en este archivo
                 } else {
                     System.out.print("Apellido: ");
