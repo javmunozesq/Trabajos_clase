@@ -1,0 +1,73 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environments
+venv/
+env/
+.Class003/
+Class003/
+*.venv/
+*/venv/
+*/env/
+
+# If your venv folder is named exactly Class003 (as in your example)
+Class003/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+pip-wheel-metadata/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage
+htmlcov/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Environments and secret files
+.env
+.env.*
+secrets.json
+credentials.json
+
+# Logs and databases
+*.log
+*.sqlite3
+*.db
+
+# Black and other formatters
+# (no need to ignore black itself; if you generate caches or temp files, add them here)
+
+# Temporary files
+*.tmp
+*.bak
+*~ 
