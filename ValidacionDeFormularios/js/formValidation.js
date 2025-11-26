@@ -1,295 +1,349 @@
-// js/forValidation.js
-// ----------------------------------------------------------------------------
-// VERSIÓN “MINI” PARA CLASE: una función por campo
-// - Campo 1: Nombre  -> validateName() + wireNameValidation()
-// - (Ejemplo) Campo 2: Apellidos -> validateLastName() + wireLastNameValidation()
-// Helpers reutilizables: showError() / clearError() para no repetir DOM.
-// ----------------------------------------------------------------------------
-
-document.addEventListener('DOMContentLoaded', () => {
-  // ==========================
-  // HELPERS DE UI (GENÉRICOS)
-  // ==========================
-
-  /**
-   * Pinta el campo como inválido (rojo) y crea/actualiza el <p> del error.
-   * @param {HTMLInputElement|HTMLTextAreaElement} input
-   * @param {string} errorId  id único del <p> que mostrará el mensaje
-   * @param {string} message  texto del error
-   */
-  function showError(input, errorId, message) {
-    // Señales para accesibilidad y CSS
-    input.setAttribute('aria-invalid', 'true'); // borde rojo
-    input.removeAttribute('data-valid'); // si estaba marcado como válido, lo quitamos
-
-    // Contenedor visual donde insertaremos el mensaje
-    const control = input.closest('.control') || input.parentElement; 
-
-    // Crear o actualizar el <p class="error-msg" role="alert">
-    let p = control.querySelector('#' + errorId);
-    if (!p) {
-      p = document.createElement('p');
-      p.id = errorId;
-      p.className = 'error-msg';
-      p.setAttribute('role', 'alert');
-      control.appendChild(p);
-
-      // Vincular input ↔ mensaje (accesibilidad)
-      const describedby = (input.getAttribute('aria-describedby') || '')
-        .split(' ')
-        .filter(Boolean);
-      if (!describedby.includes(errorId)) {
-        describedby.push(errorId);
-        input.setAttribute('aria-describedby', describedby.join(' '));
-      }
-    }
-    p.textContent = message;
+// ========================
+// Helpers DOM y accesibilidad
+// ========================
+function $(selector, root = document) {
+  return root.querySelector(selector);
+}
+function $all(selector, root = document) {
+  return Array.from(root.querySelectorAll(selector));
+}
+function getControl(input) {
+  return input.closest('.control') || input.parentElement;
+}
+function ensureErrorNode(input) {
+  const control = getControl(input);
+  let msg = control.querySelector('.error-msg');
+  if (!msg) {
+    msg = document.createElement('p');
+    msg.className = 'error-msg';
+    msg.setAttribute('role', 'alert');
+    msg.setAttribute('aria-live', 'polite');
+    control.appendChild(msg);
   }
+  const msgId = `error-${input.id || input.name}`;
+  msg.id = msgId;
 
-  /**
-   * Limpia el estado de error (quita rojo) y marca el campo como válido (azul).
-   * @param {HTMLInputElement|HTMLTextAreaElement} input
-   * @param {string} errorId
-   */
-  function clearError(input, errorId) {
-    input.removeAttribute('aria-invalid');
-    input.setAttribute('data-valid', 'true');
+  const describedBy = (input.getAttribute('aria-describedby') || '').trim();
+  const ids = new Set(describedBy ? describedBy.split(/\s+/) : []);
+  ids.add(msgId);
+  input.setAttribute('aria-describedby', Array.from(ids).join(' '));
 
-    const control = input.closest('.control') || input.parentElement;
-    const p = control.querySelector('#' + errorId);
-    if (p) p.remove();
-
-    // Sanea aria-describedby si ya no quedan mensajes asociados
-    const rest = (input.getAttribute('aria-describedby') || '')
-      .split(' ')
-      .filter(id => id && id !== errorId);
-    if (rest.length) input.setAttribute('aria-describedby', rest.join(' '));
-    else input.removeAttribute('aria-describedby');
-  }
-
-  // ===================================
-  // CAMPO 1: NOMBRE (mínimo 3 chars)
-  // ===================================
-
-  const nameInput = document.getElementById('nombre'); // <input id="nombre" ...>
-  const NAME_ERROR_ID = 'error-name';// id único para el <p> del error
-
-  /** Regla sencilla: al menos 3 caracteres (ignora espacios alrededor). */
-  function validateName() {
-    const value = (nameInput?.value || '').trim(); // Evita error si no existe
-    if (value.length < 3) {
-      showError(nameInput, NAME_ERROR_ID, 'El nombre debe tener al menos 3 caracteres.'); // Mensaje visible
-      return false;
-    }
-    clearError(nameInput, NAME_ERROR_ID); // Limpia el error si es válido
-    return true;
-  }
-
-  /** Escuchas para el campo Nombre */
-  function wireNameValidation() {
-    if (!nameInput) return;
-
-    // Validar al salir del campo
-    nameInput.addEventListener('blur', validateName); // 'blur' = pierde foco
-
-    // Mientras escribe: si ya cumple, limpiar el error para feedback inmediato
-    nameInput.addEventListener('input', () => {
-      if (nameInput.value.trim().length >= 3) {
-        clearError(nameInput, NAME_ERROR_ID);
-      }
-    });
-
-    // (Opcional) Evitar envío si el nombre está mal:
-    const form = document.getElementById('form-inscripcion'); // <form id="form-inscripcion" ...>
-    form?.addEventListener('submit', (e) => { if (!validateName()) e.preventDefault(); }); // ' ' del form
-  }
-
-  wireNameValidation(); // linea única para activar la validación del nombre
-
-// ===================================
-// CAMPO 2: APELLIDOS (mínimo 3 chars)
-// ===================================
-
-// Capturamos el input por su id
-const lastNameInput = document.getElementById('apellidos'); 
-
-// Definimos un ID único para el mensaje de error
-const LASTNAME_ERROR_ID = 'error-lastname';
-
-/**
- *   Función de validación: al menos 3 caracteres (ignora espacios alrededor)
- * - Si no cumple, muestra el error con showError()
- * - Si cumple, limpia el error con clearError()
- */
-function validateLastName() {
-  const value = (lastNameInput?.value || '').trim(); // Evita error si el input no existe
-  if (value.length < 3) {
-    showError(lastNameInput, LASTNAME_ERROR_ID, 'Los apellidos deben tener al menos 3 caracteres.');
-    return false;
-  }
-  clearError(lastNameInput, LASTNAME_ERROR_ID);
-  return true;
+  return msg;
+}
+function showError(input, message) {
+  const msg = ensureErrorNode(input);
+  msg.textContent = message || '';
+  input.setAttribute('aria-invalid', 'true');
+  const control = getControl(input);
+  control?.classList.add('is-invalid');
+  control?.classList.remove('is-valid');
+}
+function clearError(input) {
+  const control = getControl(input);
+  const msg = control?.querySelector('.error-msg');
+  if (msg) msg.textContent = '';
+  input.removeAttribute('aria-invalid');
+  control?.classList.remove('is-invalid');
+  control?.classList.add('is-valid');
+}
+function disableSubmit(btn) {
+  btn.disabled = true;
+  btn.setAttribute('aria-disabled', 'true');
+}
+function enableSubmit(btn) {
+  btn.disabled = false;
+  btn.setAttribute('aria-disabled', 'false');
+}
+function focusFirstInvalid(form) {
+  const firstInvalid = form.querySelector('[aria-invalid="true"], :invalid');
+  if (firstInvalid) firstInvalid.focus();
 }
 
-/**
- * 4) Enganchamos eventos al campo "apellidos"
- * - blur: valida al salir del campo
- * - input: si ya cumple, limpia el error en tiempo real
- * - submit: bloquea el envío si el campo es inválido
- */
-function wireLastNameValidation() {
-  if (!lastNameInput) return;
+// ========================
+// Mensajes por campo
+// ========================
+const messages = {
+  nombre: {
+    required: 'El nombre es obligatorio.',
+    minlength: 'Debe tener al menos 2 caracteres.',
+    custom: 'Nombre inválido.',
+  },
+  apellidos: {
+    required: 'Los apellidos son obligatorios.',
+    minlength: 'Debe tener al menos 2 caracteres.',
+    custom: 'Apellidos inválidos.',
+  },
+  email: {
+    required: 'El correo es obligatorio.',
+    typeMismatch: 'Formato de correo no válido.',
+    custom: 'Correo inválido.',
+  },
+  telefono: {
+    required: 'El teléfono es obligatorio.',
+    patternMismatch: '9–20 caracteres; solo dígitos, espacio, + ( ) -.',
+    custom: 'Teléfono inválido.',
+  },
+  cp: {
+    required: 'El código postal es obligatorio.',
+    patternMismatch: 'Debe tener exactamente 5 dígitos.',
+    custom: 'Código postal inválido.',
+  },
+  dni: {
+    required: 'El documento es obligatorio.',
+    patternMismatch: 'Entre 5 y 15 caracteres alfanuméricos.',
+    custom: 'Documento inválido.',
+  },
+  iban_ultimos: {
+    required: 'Los 4 últimos dígitos del IBAN son obligatorios.',
+    patternMismatch: 'Debe tener exactamente 4 dígitos.',
+    custom: 'IBAN inválido.',
+  },
+  fecha_nacimiento: {
+    required: 'La fecha de nacimiento es obligatoria.',
+    custom: 'Debes tener entre 16 y 119 años.',
+  },
+  altura: {
+    required: 'La altura es obligatoria.',
+    rangeUnderflow: 'Mínimo 120 cm.',
+    rangeOverflow: 'Máximo 230 cm.',
+    stepMismatch: 'Debe ser entero.',
+    custom: 'Altura inválida.',
+  },
+  peso: {
+    required: 'El peso es obligatorio.',
+    rangeUnderflow: 'Mínimo 35 kg.',
+    rangeOverflow: 'Máximo 250 kg.',
+    custom: 'Peso inválido.',
+  },
+  objetivos: {
+    required: 'Indica tus objetivos.',
+    custom: 'Escribe al menos 3 palabras reales.',
+  },
+  plan: {
+    required: 'Selecciona un plan.',
+    custom: 'Plan inválido.',
+  },
+  tos: {
+    required: 'Debes aceptar los términos y condiciones.',
+  },
+  rgpd: {
+    required: 'Debes aceptar la política de privacidad.',
+  },
+  condiciones: {
+    required: 'Selecciona al menos una condición o “Ninguna”.',
+    conflict: '“Ninguna” no puede combinarse con otras opciones.',
+  },
+};
 
-  // Validar al perder el foco
-  lastNameInput.addEventListener('blur', validateLastName);
-
-  // Validar mientras escribe (feedback inmediato)
-  lastNameInput.addEventListener('input', () => {
-    if (lastNameInput.value.trim().length >= 3) {
-      clearError(lastNameInput, LASTNAME_ERROR_ID);
-    }
-  });
-
-  // Bloquear envío si el campo es inválido
-  const form = document.getElementById('form-inscripcion');
-  form?.addEventListener('submit', (e) => {
-    if (!validateLastName()) e.preventDefault();
-  });
+// ========================
+// Reglas por campo (JS)
+// ========================
+function normalizeText(v) {
+  return (v || '').trim();
 }
-
-// 5) Activamos la validación del campo "apellidos"
-wireLastNameValidation
-
-// ===================================
-// CAMPO 3: DNI (formato 8 números + 1 letra)
-// ===================================
-
-// 1) Capturamos el input por su id
-const dniInput = document.getElementById('dni'); // <input id="dni" ...>
-
-// 2) Definimos un ID único para el mensaje de error
-const DNI_ERROR_ID = 'error-dni'; // id único para el <p> del error
-
-/**
- * 3) Función de validación:
- * - Debe tener exactamente 8 dígitos seguidos de una letra (mayúscula o minúscula)
- * - Ejemplo válido: 12345678Z
- */
-function validateDNI() {
-  const value = (dniInput?.value || '').trim();
-  const dniRegex = /^[0-9]{8}[a-zA-Z]$/; // Expresión regular para validar el formato
-
-  if (!dniRegex.test(value)) {
-    showError(dniInput, DNI_ERROR_ID, 'El DNI debe tener 8 números seguidos de una letra (ej. 12345678Z).');
-    return false;
-  }
-
-  clearError(dniInput, DNI_ERROR_ID);
-  return true;
+function countRealWords(text) {
+  const cleaned = normalizeText(text).replace(/\s+/g, ' ');
+  const tokens = cleaned.split(' ').filter(w => /\p{L}{2,}/u.test(w));
+  return tokens.length;
 }
-
-/**
- * 4) Enganchamos eventos al campo "dni"
- * - blur: valida al salir del campo
- * - input: si ya cumple, limpia el error en tiempo real
- * - submit: bloquea el envío si el campo es inválido
- */
-function wireDNIValidation() {
-  if (!dniInput) return;
-
-  // Validar al perder el foco
-  dniInput.addEventListener('blur', validateDNI);
-
-  // Validar mientras escribe (feedback inmediato)
-  dniInput.addEventListener('input', () => {
-    if (/^[0-9]{8}[a-zA-Z]$/.test(dniInput.value.trim())) {
-      clearError(dniInput, DNI_ERROR_ID);
-    }
-  });
-
-  // Bloquear envío si el campo es inválido
-  const form = document.getElementById('form-inscripcion');
-  form?.addEventListener('submit', (e) => {
-    if (!validateDNI()) e.preventDefault();
-  });
-}
-
-// 5) Activamos la validación del campo "dni"
-wireDNIValidation();
-
-// ============================================
-// CAMPO 4: FECHA DE NACIMIENTO (mayores de 18)
-// ============================================
-
-// 1) Capturamos el input por su id
-const birthDateInput = document.getElementById('fecha-nacimiento'); // <input id="fecha-nacimiento" type="date" ...>
-
-// 2) Definimos un ID único para el mensaje de error
-const BIRTHDATE_ERROR_ID = 'error-birthdate';
-
-/**
- * 3) Función de validación:
- * - Verifica que haya una fecha válida
- * - Calcula la edad y exige mínimo 18 años
- */
-function validateBirthDate() {
-  const value = birthDateInput?.value;
-  if (!value) {
-    showError(birthDateInput, BIRTHDATE_ERROR_ID, 'La fecha de nacimiento es obligatoria.');
-    return false;
-  }
-
-  const birthDate = new Date(value);
+function calcAge(dateStr) {
+  if (!dateStr) return NaN;
+  const dob = new Date(dateStr);
   const today = new Date();
-  const age = today.getFullYear() - birthDate.getFullYear();
-  const hasBirthdayPassed =
-    today.getMonth() > birthDate.getMonth() ||
-    (today.getMonth() === birthDate.getMonth() && today.getDate() >= birthDate.getDate());
+  let age = today.getFullYear() - dob.getFullYear();
+  const m = today.getMonth() - dob.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+  return age;
+}
+const rules = {
+  nombre: (input) => normalizeText(input.value).length >= 2,
+  apellidos: (input) => normalizeText(input.value).length >= 2,
+  email: (input) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(normalizeText(input.value)),
+  telefono: (input) => /^[0-9\s+()-]{9,20}$/.test(normalizeText(input.value)),
+  cp: (input) => /^[0-9]{5}$/.test(normalizeText(input.value)),
+  dni: (input) => /^[A-Za-z0-9]{5,15}$/.test(normalizeText(input.value)),
+  iban_ultimos: (input) => /^[0-9]{4}$/.test(normalizeText(input.value)),
+  fecha_nacimiento: (input) => {
+    const age = calcAge(input.value);
+    return Number.isFinite(age) && age >= 16 && age < 120;
+  },
+  altura: (input) => {
+    const num = Number(input.value);
+    return Number.isInteger(num) && num >= 120 && num <= 230;
+  },
+  peso: (input) => {
+    const num = Number(input.value);
+    return Number.isFinite(num) && num >= 35 && num <= 250;
+  },
+  objetivos: (input) => countRealWords(input.value) >= 3,
+  plan: (input) => normalizeText(input.value) !== '',
+};
+// Grupo condiciones médicas
+function validateCondiciones(groupRoot) {
+  const checks = Array.from(groupRoot.querySelectorAll('input[type="checkbox"][name="condiciones[]"]'));
+  const selected = checks.filter(c => c.checked).map(c => c.value);
+  if (selected.length === 0) return { ok: false, reason: 'required' };
+  const hasNinguna = selected.includes('ninguna');
+  const hasOther = selected.some(v => v !== 'ninguna');
+  if (hasNinguna && hasOther) return { ok: false, reason: 'conflict' };
+  return { ok: true };
+}
 
-  const actualAge = hasBirthdayPassed ? age : age - 1;
+// ========================
+// Wiring del formulario
+// ========================
+const form = $('#form-inscripcion');
+const submitBtn = $('.actions .btn-primary');
 
-  if (actualAge < 18) {
-    showError(birthDateInput, BIRTHDATE_ERROR_ID, 'Debes ser mayor de 18 años.');
+const fields = [
+  'nombre', 'apellidos', 'email', 'telefono', 'cp', 'dni',
+  'iban_ultimos', 'fecha_nacimiento', 'altura', 'peso', 'objetivos', 'plan',
+];
+
+const inputs = Object.fromEntries(
+  fields.map((name) => {
+    const node = form.querySelector(`[name="${name}"]`);
+    return [name, node];
+  })
+);
+
+// Root del grupo de condiciones médicas
+const condicionesRoot =
+  form.querySelector('[aria-label="Condiciones médicas"]')?.closest('.control') ||
+  form;
+
+function validateNative(input) {
+  const v = input.validity;
+  if (v.valid) return { ok: true };
+  const key =
+    v.valueMissing ? 'required' :
+    v.typeMismatch ? 'typeMismatch' :
+    v.patternMismatch ? 'patternMismatch' :
+    v.rangeUnderflow ? 'rangeUnderflow' :
+    v.rangeOverflow ? 'rangeOverflow' :
+    v.stepMismatch ? 'stepMismatch' :
+    'customError';
+  return { ok: false, reason: key };
+}
+function validateCustom(name, input) {
+  const rule = rules[name];
+  if (!rule) return { ok: true };
+  const ok = rule(input);
+  return { ok, reason: ok ? null : 'custom' };
+}
+function showMessage(name, input, reason) {
+  const msgSet = messages[name] || {};
+  const msg = msgSet[reason] || msgSet.custom || 'Campo inválido.';
+  showError(input, msg);
+}
+function validateField(name) {
+  const input = inputs[name];
+  if (!input) return true;
+
+  const native = validateNative(input);
+  if (!native.ok) {
+    showMessage(name, input, native.reason);
     return false;
   }
 
-  clearError(birthDateInput, BIRTHDATE_ERROR_ID);
+  const custom = validateCustom(name, input);
+  if (!custom.ok) {
+    showMessage(name, input, custom.reason);
+    return false;
+  }
+
+  clearError(input);
   return true;
 }
+function validateCondicionesGroup() {
+  const result = validateCondiciones(condicionesRoot);
+  const anchor = form.querySelector('input[type="checkbox"][name="condiciones[]"]');
+  if (!anchor) return true;
 
-/**
- * 4) Enganchamos eventos al campo "fecha de nacimiento"
- * - blur: valida al salir del campo
- * - input: si ya cumple, limpia el error en tiempo real
- * - submit: bloquea el envío si el campo es inválido
- */
-function wireBirthDateValidation() {
-  if (!birthDateInput) return;
+  if (!result.ok) {
+    const msg = messages.condiciones[result.reason] || messages.condiciones.required;
+    showError(anchor, msg);
+    return false;
+  }
+  clearError(anchor);
+  return true;
+}
+function gateSubmit() {
+  const allValid = fields.every(validateField) && validateCondicionesGroup();
 
-  birthDateInput.addEventListener('blur', validateBirthDate);
+  const tos = form.querySelector('input[name="tos"]');
+  const tosOk = tos?.checked === true;
 
-  birthDateInput.addEventListener('input', () => {
-    if (validateBirthDate()) {
-      clearError(birthDateInput, BIRTHDATE_ERROR_ID);
+  const globalOk = allValid && tosOk;
+
+  if (globalOk) enableSubmit(submitBtn);
+  else disableSubmit(submitBtn);
+
+  return globalOk;
+}
+function handleChange(e) {
+  const target = e.target;
+  if (!target || !form.contains(target)) return;
+
+  const name = target.name;
+  if (fields.includes(name)) {
+    validateField(name);
+  }
+
+  if (target.name === 'condiciones[]') {
+    const checks = $all('input[name="condiciones[]"]', form);
+    const ninguna = checks.find(c => c.value === 'ninguna');
+    const others = checks.filter(c => c.value !== 'ninguna');
+
+    if (target.value === 'ninguna' && target.checked) {
+      others.forEach(c => (c.checked = false));
+    } else if (target.checked) {
+      if (ninguna?.checked) ninguna.checked = false;
     }
-  });
+    validateCondicionesGroup();
+  }
 
-  const form = document.getElementById('form-inscripcion');
-  form?.addEventListener('submit', (e) => {
-    if (!validateBirthDate()) e.preventDefault();
-  });
+  gateSubmit();
+}
+function handleInput(e) {
+  const target = e.target;
+  if (!target || !form.contains(target)) return;
+  const name = target.name;
+  if (fields.includes(name)) {
+    const native = validateNative(target);
+    if (!native.ok) {
+      showMessage(name, target, native.reason);
+    } else {
+      const custom = validateCustom(name, target);
+      if (!custom.ok) showMessage(name, target, custom.reason);
+      else clearError(target);
+    }
+  }
+}
+function handleSubmit(e) {
+  e.preventDefault();
+  const ok = gateSubmit();
+  if (!ok) {
+    focusFirstInvalid(form);
+    return;
+  }
+  alert('Formulario válido. Envío simulado ✅');
+  form.reset();
+  postResetCleanup();
+}
+function postResetCleanup() {
+  $all('.error-msg', form).forEach(n => (n.textContent = ''));
+  $all('[aria-invalid="true"]', form).forEach(el => el.removeAttribute('aria-invalid'));
+  $all('.control', form).forEach(c => c.classList.remove('is-invalid', 'is-valid'));
+  disableSubmit(submitBtn);
 }
 
-// 5) Activamos la validación del campo "fecha de nacimiento"
-wireBirthDateValidation();
+// ========================
+// Listeners e inicialización
+// ========================
+form.addEventListener('input', handleInput);
+form.addEventListener('change', handleChange);
+form.addEventListener('submit', handleSubmit);
+form.addEventListener('reset', () => setTimeout(postResetCleanup, 0));
 
-
-  // ----------------------------------------------------------
-  // NOTAS PARA EXTENDER (MISMA RECETA PARA CADA CAMPO NUEVO):
-  // 1) Captura el input por su id (getElementById).
-  // 2) Define un ERROR_ID único.
-  // 3) Escribe validateX(): aplica tu regla y usa showError/clearError.
-  // 4) Escribe wireXValidation(): engancha blur + input.
-  // 5) (Opcional) Bloquea submit si falla: en el 'submit' del form.
-  // ----------------------------------------------------------
-});
+disableSubmit(submitBtn);

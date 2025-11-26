@@ -266,3 +266,33 @@ button[disabled] {
   filter: grayscale(0.2);
 }
 
+/* Ocultar mensaje por defecto; mostrar solo cuando el control está en estado inválido */
+.control .error-msg {
+  display: none;               /* oculto por defecto */
+  color: #ffd7d7;
+  margin-top: 8px;
+  padding: 10px 12px;
+  font-size: .95rem;
+  font-weight: 600;
+  background: rgba(239,91,91,.12);
+  border: 1px solid rgba(239,91,91,.35);
+  border-left: 4px solid var(--danger);
+  border-radius: 10px;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+/* Mostrar mensaje solo cuando el control tenga la clase is-invalid */
+.control.is-invalid .error-msg {
+  display: flex;
+  animation: error-in .18s ease-out;
+}
+
+/* Icono y estilos ya definidos por ::before seguirán aplicándose */
+.control .error-msg::before { content: "⚠"; margin-top:2px; font-size:1.05em; }
+
+/* Asegúrate de que los estilos de input[aria-invalid] no dependan de la existencia del .error-msg */
+input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="true"] {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px rgba(239,91,91,.25);
+}
