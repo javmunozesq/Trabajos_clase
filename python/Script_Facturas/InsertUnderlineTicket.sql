@@ -1,6 +1,6 @@
 -- InsertUnderlineTicket.sql
 -- Generado por build_insert_from_tickets.py (versión compacta)
--- Fecha: 2025-11-24T12:33:01.404426
+-- Fecha: 2025-11-28T12:09:22.536288
 SET FOREIGN_KEY_CHECKS = 0;
 
 INSERT INTO sucursal (sucursal_id, nombre, direccion) VALUES (1, 'SUPERMERCADOS EL AHORRO', 'Av. Principal #123 - Madrid');
