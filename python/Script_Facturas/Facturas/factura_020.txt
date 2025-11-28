@@ -4,7 +4,7 @@
 
 ------------------------------------------------
 Fecha: 30/09/2025        Hora: 12:55
-Cajero: 042 - Diego Gómez
+Cajero: 666 - Javier Muñoz
 Ticket: 20010020
 ------------------------------------------------
 CANT  DESCRIPCIÓN                  IMPORTE

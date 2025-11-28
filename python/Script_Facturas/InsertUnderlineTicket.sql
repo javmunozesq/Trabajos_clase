@@ -1,6 +1,6 @@
 -- InsertUnderlineTicket.sql
 -- Generado por build_insert_from_tickets.py (versión compacta)
--- Fecha: 2025-11-28T12:09:22.536288
+-- Fecha: 2025-11-28T20:03:57.821986
 SET FOREIGN_KEY_CHECKS = 0;
 
 INSERT INTO sucursal (sucursal_id, nombre, direccion) VALUES (1, 'SUPERMERCADOS EL AHORRO', 'Av. Principal #123 - Madrid');
@@ -318,7 +318,8 @@ INSERT INTO ticket_linea (linea_id, ticket_id, producto_id, cantidad, precio_uni
 INSERT INTO ticket_linea (linea_id, ticket_id, producto_id, cantidad, precio_unitario, importe, orden_linea) VALUES (244, 18, 11, 1.0000, 57.6000, 57.6000, 12);
 INSERT INTO ticket_linea (linea_id, ticket_id, producto_id, cantidad, precio_unitario, importe, orden_linea) VALUES (245, 18, 12, 1.0000, 643300.0000, 643300.0000, 13);
 INSERT INTO pago (pago_id, ticket_id, metodo, importe, autorizacion) VALUES (18, 18, 'TARJETA', 57.6000, '643300');
-INSERT INTO ticket (ticket_id, numero_ticket, fecha, hora, sucursal_id, empleado_id, subtotal, iva, iva_pct, total) VALUES (19, '20010019', '2025-09-29', '10:47', 1, 5, 36.5200, 7.6700, 21.00, 44.1900);
+INSERT INTO empleado (empleado_id, codigo_cajero, nombre, sucursal_id) VALUES (8, '666', 'Javier Muñoz', 1);
+INSERT INTO ticket (ticket_id, numero_ticket, fecha, hora, sucursal_id, empleado_id, subtotal, iva, iva_pct, total) VALUES (19, '20010019', '2025-09-29', '10:47', 1, 8, 36.5200, 7.6700, 21.00, 44.1900);
 INSERT INTO ticket_linea (linea_id, ticket_id, producto_id, cantidad, precio_unitario, importe, orden_linea) VALUES (246, 19, 1, 1.0000, 910123456.0000, 910123456.0000, 1);
 INSERT INTO ticket_linea (linea_id, ticket_id, producto_id, cantidad, precio_unitario, importe, orden_linea) VALUES (247, 19, 2, 1.0000, 20010019.0000, 20010019.0000, 2);
 INSERT INTO ticket_linea (linea_id, ticket_id, producto_id, cantidad, precio_unitario, importe, orden_linea) VALUES (248, 19, 4, 2.0000, 3.8000, 7.6000, 3);
@@ -335,7 +336,7 @@ INSERT INTO ticket_linea (linea_id, ticket_id, producto_id, cantidad, precio_uni
 INSERT INTO ticket_linea (linea_id, ticket_id, producto_id, cantidad, precio_unitario, importe, orden_linea) VALUES (259, 19, 10, 1.0000, 7.6700, 7.6700, 14);
 INSERT INTO ticket_linea (linea_id, ticket_id, producto_id, cantidad, precio_unitario, importe, orden_linea) VALUES (260, 19, 11, 1.0000, 44.1900, 44.1900, 15);
 INSERT INTO pago (pago_id, ticket_id, metodo, importe, autorizacion) VALUES (19, 19, 'EFECTIVO', 44.1900, NULL);
-INSERT INTO ticket (ticket_id, numero_ticket, fecha, hora, sucursal_id, empleado_id, subtotal, iva, iva_pct, total) VALUES (20, '20010020', '2025-09-30', '12:55', 1, 6, 38.0000, 7.9800, 21.00, 45.9800);
+INSERT INTO ticket (ticket_id, numero_ticket, fecha, hora, sucursal_id, empleado_id, subtotal, iva, iva_pct, total) VALUES (20, '20010020', '2025-09-30', '12:55', 1, 8, 38.0000, 7.9800, 21.00, 45.9800);
 INSERT INTO ticket_linea (linea_id, ticket_id, producto_id, cantidad, precio_unitario, importe, orden_linea) VALUES (261, 20, 1, 1.0000, 910123456.0000, 910123456.0000, 1);
 INSERT INTO ticket_linea (linea_id, ticket_id, producto_id, cantidad, precio_unitario, importe, orden_linea) VALUES (262, 20, 2, 1.0000, 20010020.0000, 20010020.0000, 2);
 INSERT INTO ticket_linea (linea_id, ticket_id, producto_id, cantidad, precio_unitario, importe, orden_linea) VALUES (263, 20, 13, 2.5000, 6.2000, 15.5000, 3);

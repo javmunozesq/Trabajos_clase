@@ -2,27 +2,12 @@
 # Este script lee archivos de texto con facturas desde una carpeta
 # y genera un script SQL para insertar los datos en una base de datos MySQL
 
-
-"""
-build_insert_from_tickets.py
-
-Lee archivos .txt (tickets) en una carpeta y genera InsertUnderlineTicket.sql
-con sentencias INSERT para poblar la base de datos MariaDB/MySQL diseñada.
-
-Uso:
-    python build_insert_from_tickets.py path_a_carpeta_facturas/
-
-Salida:
-    InsertUnderlineTicket.sql
-    parse_log.txt (resumen de avisos/errores durante el parseo)
-"""
-
 import sys, re, unicodedata
 from pathlib import Path
 from datetime import datetime
 from typing import Optional, Dict, Any, List, Tuple
 
-# ---------- Utilidades ----------
+# Utilidades
 
 def sql_escape(s: Optional[str]) -> str:
     return "NULL" if s is None else "'" + str(s).replace("'", "''") + "'"
@@ -39,7 +24,7 @@ def parse_number(s: Optional[str]) -> Optional[float]:
     try: return float(s)
     except: return None
 
-# ---------- Patrones ----------
+# Patrones
 
 RX_DATE    = re.compile(r'fecha\s*[:\-]?\s*(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})', re.I)
 RX_HOUR    = re.compile(r'hora\s*[:\-]?\s*(\d{1,2}:\d{2})', re.I)
@@ -58,7 +43,7 @@ RX_UNIT_PAREN   = re.compile(r'\(([a-zA-Z0-9%]+)\)')
 RX_UNIT_SUFFIX  = re.compile(r'(?:\s|^)(\d+\s?(?:g|kg|l|ml|u|un|unidad|pack))\s*$', re.I)
 RX_SEPARATOR    = re.compile(r'^\s*-{3,}\s*$')
 
-# ---------- Parsing ----------
+# Parsing 
 
 def parse_producto_line(line: str) -> Optional[Dict[str, Any]]:
     m = RX_LINE.match(line)
@@ -174,7 +159,7 @@ def parse_ticket(path: Path, log: List[str]) -> Optional[Dict[str, Any]]:
 
     return data
 
-# ---------- Generador SQL ----------
+# Generador SQL
 
 class SqlGenerator:
     def __init__(self):
@@ -252,7 +237,7 @@ class SqlGenerator:
                 f"VALUES ({pidp}, {tid}, {sql_escape(pago.get('metodo'))}, {self.fmt4(importe_pago)}, {sql_escape(pago.get('autorizacion'))});"
             )
 
-# ---------- Orquestador ----------
+# Orquestador
 
 def generar_sql_para_carpeta(path_carpeta: str, archivo_salida: str = "InsertUnderlineTicket.sql"):
     carpeta = Path(path_carpeta)

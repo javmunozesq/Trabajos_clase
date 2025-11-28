@@ -1,6 +1,5 @@
-// ========================
 // Helpers DOM y accesibilidad
-// ========================
+
 function $(selector, root = document) {
   return root.querySelector(selector);
 }
@@ -59,9 +58,9 @@ function focusFirstInvalid(form) {
   if (firstInvalid) firstInvalid.focus();
 }
 
-// ========================
+
 // Mensajes por campo
-// ========================
+
 const messages = {
   nombre: {
     required: 'El nombre es obligatorio.',
@@ -135,9 +134,8 @@ const messages = {
   },
 };
 
-// ========================
 // Reglas por campo (JS)
-// ========================
+
 function normalizeText(v) {
   return (v || '').trim();
 }
@@ -189,9 +187,9 @@ function validateCondiciones(groupRoot) {
   return { ok: true };
 }
 
-// ========================
+
 // Wiring del formulario
-// ========================
+
 const form = $('#form-inscripcion');
 const submitBtn = $('.actions .btn-primary');
 
@@ -338,9 +336,8 @@ function postResetCleanup() {
   disableSubmit(submitBtn);
 }
 
-// ========================
 // Listeners e inicialización
-// ========================
+
 form.addEventListener('input', handleInput);
 form.addEventListener('change', handleChange);
 form.addEventListener('submit', handleSubmit);
